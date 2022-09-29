@@ -1,4 +1,4 @@
-package com.soit.soitfaculty.model;
+package com.soit.soitfaculty;
 
 public class SoitFacultyApplication {
 
