@@ -1,1 +1,0 @@
-package com.soit.soitfaculty.model;
