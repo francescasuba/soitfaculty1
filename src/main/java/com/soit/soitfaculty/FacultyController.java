@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.soit.soitfaculty.entity.Faculty;
 import com.soit.soitfaculty.service.FacultyService;
@@ -48,6 +49,19 @@ public class FacultyController {
 		return "faculties/faculty-form";
 	}
 	
+	@GetMapping("/viewUpdateForm")
+	public String viewUpdateForm(@RequestParam("facultyId") int theId, Model theModel) {
+		
+		// Retrieve the faculty info from the service layer
+		Faculty theFaculty = facultyService.findById(theId);
+		
+		// Prepopulate the form by setting the faculty as a model attribute
+		theModel.addAttribute("faculty", theFaculty);
+		
+		// Redirect us to the faculty form
+		return "faculties/faculty-form";
+	}
+	
 	@PostMapping("/save")
 	public String saveFaculty(@ModelAttribute("faculty") Faculty theFaculty) {
 		
@@ -55,6 +69,16 @@ public class FacultyController {
 		facultyService.save(theFaculty);
 		
 		// Block duplicates submission for accidental refresh
+		return "redirect:/Faculties/list";
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("facultyId") int theId) {
+		
+		// Remove faculty
+		facultyService.deleteById(theId);
+		
+		// Redirect to faculty list
 		return "redirect:/Faculties/list";
 	}
 	
